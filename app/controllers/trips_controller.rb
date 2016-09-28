@@ -1,38 +1,36 @@
 class TripsController < ApplicationController
-	before_action :set_person, only: [:new, :index]
+	before_action :set_person, only: [:new, :create, :index]
 	
 	def new 
-		@trip = @person.trips.new
+		@time_accounted_for = []
+		3.times do
+			@time_accounted_for << @person.trips.new
+		end
 	end
 
 	def index
 		@trips = @person.trips
 	end
-	
+
 	def create
-		@trip = @person.trips.new(trip_params)
-		@trip.total_days = @trip.total_days_per_trip(@trip.start_date, @trip.end_date)
-		
-		respond_to do |format|
-			if @trip.save
-				format.html { redirect_to person_trips_path }
-				format.json { render :index }
-			else
-				format.html { render :new }
-				format.json { render json: @trip.errors, status: :unprocessable_entity }
-			end
+		params[:trips].each do |trip|
+			trip[:total_days] = (trip[:end_date].to_date - trip[:start_date].to_date).to_i
+			trip = @person.trips.create!(trip_params(trip))
 		end
+
+		redirect_to person_trips_path
 	end
 
 
 	private
 
+
 	def set_person
 		@person = Person.find(params[:person_id])
 	end
 
-	def trip_params
-		params.require(:trip).permit(:start_date, :end_date, :state)
+	def trip_params(my_params)
+		my_params.permit(:start_date, :end_date, :state, :total_days)
 	end
 
 end

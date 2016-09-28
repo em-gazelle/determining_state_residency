@@ -1,3 +1,26 @@
 <h2>Great! You're ready...now let's start accounting for where you've spent your year </h2>
 
-<%= render 'form' %>
+<%= form_tag person_trips_path do %>
+	<% @time_accounted_for.each do |trip| %>
+	  	<%= fields_for 'trips[]', trip do |t| %>
+	  		<div class="field">
+			    <%= t.label :start_date %><br>
+			    <%= t.date_field :start_date %>
+			</div>
+			<div class="field">
+			    <%= t.label :end_date %>
+			    <%= t.date_field :end_date %>
+			</div>
+			<div class="field">
+				<%= t.label :state %>
+			    <%= t.text_field :state %>
+			</div>
+		<% end %>
+		</br>
+	<% end %>
+	<div class="actions">
+		<%= submit_tag "Submit" %>
+	</div>
+<% end %>
+
+<!-- Add another trip: <%#= render 'form' %> -->
