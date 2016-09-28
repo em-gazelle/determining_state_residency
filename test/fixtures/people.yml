@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  desired_residency_state: MyString
+  leap_year: false
+  year: 1
+
+two:
+  desired_residency_state: MyString
+  leap_year: false
+  year: 1

@@ -1,0 +1,26 @@
+<%= form_for(@person) do |f| %>
+  <% if @person.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@person.errors.count, "error") %> stopped us from beginning to calculate your state of residence:</h2>
+
+      <ul>
+      <% @person.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :year %><br />
+    <%= f.number_field :year %>
+  </div>
+  <div class="field">
+    <%= f.label :desired_state_of_residency %><br />
+    <%= f.text_field :desired_state_of_residency %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
