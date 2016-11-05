@@ -1,6 +1,7 @@
 class Person < ActiveRecord::Base
 	validates :year, presence: :true, numericality: { greater_than: 0 }
 	validate :state_abbreviated	
+
 	has_many :trips
 	
 
@@ -13,16 +14,15 @@ class Person < ActiveRecord::Base
 
 	# defining attribute methods
 	def leap_year?(year)
-		unless year.nil?
-			divisible_by_100 = (year%100).zero?
+		year = year.to_i
+		divisible_by_100 = (year%100).zero?
 
-			if divisible_by_100 && (year%400).zero?
-				true
-			elsif (year%4).zero? && !divisible_by_100
-				true
-			else
-				false
-			end
+		if divisible_by_100 && (year%400).zero?
+			self.leap_year = true
+		elsif (year%4).zero? && !divisible_by_100
+			self.leap_year = true
+		else
+			self.leap_year = false
 		end
 	end
 	# Rules for calculating leap years found at: http://www.timeanddate.com/date/leapyear.html
