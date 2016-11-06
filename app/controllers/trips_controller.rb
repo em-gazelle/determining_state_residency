@@ -12,7 +12,6 @@ class TripsController < ApplicationController
 
 		params[:trips].each do |trip|
 			trip[:total_days] = (trip[:end_date].to_date - trip[:start_date].to_date).to_i
-			# convert to model method!!!
 			trip = @person.trips.create!(trip_params(trip))
 		end
 

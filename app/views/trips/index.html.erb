@@ -22,4 +22,7 @@ All trips....
   </tbody>
 </table>
 
+<h3>Totals: <%= @trip_summary_data[:total_days_per_state] %></h3>
+<h3><%= @trip_summary_data[:residency_conclusion] %></h3>
+
 <%= link_to 'Add another trip!', new_person_trip_path %>

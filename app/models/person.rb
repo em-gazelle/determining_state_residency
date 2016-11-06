@@ -1,6 +1,6 @@
 class Person < ActiveRecord::Base
 	validates :year, presence: :true, numericality: { greater_than: 0 }
-	validate :state_abbreviated	
+	validate :state_abbreviated
 
 
 	has_many :trips do
