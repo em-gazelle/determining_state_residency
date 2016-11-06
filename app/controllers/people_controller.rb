@@ -20,14 +20,7 @@ class PeopleController < ApplicationController
 		end
 	end
 
-	def show
-		@trips = @person.trips
-
-		# model association (collection??) methods....
-		@total_days_per_state = @trips.total_days_per_state
-		# call in pie chart and/or brief recapping-list
-		@residency_conclusion = @trips.residency_conclusion
-		# call in view as display message
+	def show		
 	end
 
 	def destroy

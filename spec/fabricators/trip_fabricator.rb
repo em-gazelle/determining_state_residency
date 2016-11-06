@@ -1,6 +1,5 @@
 Fabricator(:trip) do
-	person
-	start_date Today.date 
-	end_date { Today.date - 45 }
+	start_date Date.today 
+	end_date { Date.today - 45 }
 	state { %w(CA FL GA IL).sample }	
 end

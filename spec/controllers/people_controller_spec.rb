@@ -32,7 +32,7 @@ RSpec.describe PeopleController, type: :controller do
 		context 'attributes of year and desired state residency are valid and present' do
 			it 'creates a new person' do
 			  expect{
-			    post :create, person: { desired_state_of_residency: desired_state_residency, year: 2016}
+			    post :create, person: { desired_state_of_residency: desired_state_residency, year: 2016 }
 			  }.to change(Person,:count).by(1)
 			end
 			it 'calculates and sets leap_year attribute from year when creating a person' do
