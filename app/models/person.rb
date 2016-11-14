@@ -4,22 +4,14 @@ class Person < ActiveRecord::Base
 
 
 	has_many :trips do
+
 		def total_days_per_state(desired_state_of_residency)
-			@total_days_per_state = {
-				desired_state_of_residency => 0
-			}
-
-			self.each do |trip|
-				state = trip[:state]
-				@total_days_per_state[state] = trip[:total_days] + (@total_days_per_state[state] || 0)
-			end
-
-			@total_days_per_state
+			@total_days_per_state = self.group(:state).sum(:total_days)
 		end
 
 		def days_remaining
-			days_entered = ( @total_days_per_state.map {|k,v| v}.sum )
-			365 - days_entered
+			# 365 - self.sum(:total_days)
+			365 - ( @total_days_per_state.map {|k,v| v}.sum )
 		end
 
 		def residency_conclusion(desired_state_of_residency)
@@ -32,7 +24,7 @@ class Person < ActiveRecord::Base
 				"Sorry, kiddo. Ya ain't gonna make your dreams come true; there aren't enough days left in the 
 				year to achieve residency in your dream-residency state"
 			else
-				"You've got to spend at least #{min_days_to_be_resident} days in #{desired_residency} in order
+				"You've got to spend at least #{min_days_to_be_resident} days in #{desired_state_of_residency} in order
 				to achieve residency. You can spend a maximum of #{max_days_left_in_other_states} anywhere else."
 			end
 		end
