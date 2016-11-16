@@ -4,8 +4,8 @@ Rails.application.routes.draw do
 
   resources :people, only: [:new, :create, :show, :destroy] do
     resources :trips, only: [:new, :create, :index]
+    get 'trips/pie_chart_for_total_days_per_state'
   end
-
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
