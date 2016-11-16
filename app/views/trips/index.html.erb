@@ -1,28 +1,9 @@
-All trips....
+<% content_for :stylesheets do %>
+  <%= stylesheet_link_tag 'trips/index' %>
+<% end %>
 
-<table>
-  <thead>
-    <tr>
-      <th>Start Date</th>
-      <th>End Date</th>
-      <th>State</th>
-      <th>Total Days</th>
-    </tr>
-  </thead>
 
-  <tbody>
-    <% @trips.each do |trip| %>
-      <tr>
-        <td><%= trip.start_date %></td>
-        <td><%= trip.end_date %></td>
-        <td><%= trip.state %></td>
-        <td><%= trip.total_days %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-
-<h3>Totals: <%= @trip_summary_data[:total_days_per_state] %></h3>
 <h3><%= @trip_summary_data[:residency_conclusion] %></h3>
 
-<%= link_to 'Add another trip!', new_person_trip_path %>
+<%= image_tag("residency_by_state_pie_chart.png", alt: "Image Missing", class: "pie_chart") %>
+

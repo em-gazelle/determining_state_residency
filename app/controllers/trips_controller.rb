@@ -1,3 +1,5 @@
+require 'gruff'
+
 class TripsController < ApplicationController
 	before_action :set_person, only: [:new, :create, :index]
 	
@@ -21,9 +23,9 @@ class TripsController < ApplicationController
 	def index
 		@trips = @person.trips
 		@trip_summary_data = @person.trips.trip_summary_data(@person.desired_state_of_residency)
+		
+		pie_chart_for_total_days_per_state
 	end
-
-
 
 	private
 
@@ -33,6 +35,17 @@ class TripsController < ApplicationController
 
 	def trip_params(my_params)
 		my_params.permit(:start_date, :end_date, :state, :total_days)
+	end
+
+
+	def pie_chart_for_total_days_per_state
+			g = Gruff::Pie.new(600)
+			g.theme = Gruff::Themes::PASTEL
+			g.title = "Where you've spent the year: days per state"
+			@trip_summary_data[:total_days_per_state].each do |state|
+				g.data(state[0], state[1])
+			end
+			g.write('app/assets/pie_charts/residency_by_state_pie_chart.png')
 	end
 
 end

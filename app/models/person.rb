@@ -1,3 +1,5 @@
+# require 'gruff'
+
 class Person < ActiveRecord::Base
 	validates :year, presence: :true, numericality: { greater_than: 0 }
 	validate :state_abbreviated
@@ -7,25 +9,26 @@ class Person < ActiveRecord::Base
 
 		def total_days_per_state(desired_state_of_residency)
 			@total_days_per_state = self.group(:state).sum(:total_days)
+			@total_days_per_state["Rest of the Year"] = @days_remaining unless days_remaining < 1
+			@total_days_per_state
 		end
 
 		def days_remaining
-			# 365 - self.sum(:total_days)
-			365 - ( @total_days_per_state.map {|k,v| v}.sum )
+			@days_remaining = 365 - ( @total_days_per_state.map {|k,v| v}.sum )
 		end
 
 		def residency_conclusion(desired_state_of_residency)
 			min_days_to_be_resident = (183 - @total_days_per_state[desired_state_of_residency])
-			max_days_left_in_other_states = (days_remaining - min_days_to_be_resident)
+			max_days_left_in_other_states = (@days_remaining - min_days_to_be_resident)
 
 			if min_days_to_be_resident <= 0
 				"Congrats! You've achieved residency in your desired state!"
-			elsif min_days_to_be_resident > 0 && (min_days_to_be_resident > days_remaining)
+			elsif min_days_to_be_resident > 0 && (min_days_to_be_resident > @days_remaining)
 				"Sorry, kiddo. Ya ain't gonna make your dreams come true; there aren't enough days left in the 
 				year to achieve residency in your dream-residency state"
 			else
-				"You've got to spend at least #{min_days_to_be_resident} days in #{desired_state_of_residency} in order
-				to achieve residency. You can spend a maximum of #{max_days_left_in_other_states} anywhere else."
+				"You need to spend at least #{min_days_to_be_resident} more days in #{desired_state_of_residency} in order
+				to achieve residency. You can spend a maximum of #{max_days_left_in_other_states} days anywhere else."
 			end
 		end
 
@@ -36,7 +39,6 @@ class Person < ActiveRecord::Base
 			}
 		end
 	end
-
 
 	# validation methods
 	def state_abbreviated
