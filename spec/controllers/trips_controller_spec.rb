@@ -7,7 +7,8 @@ RSpec.describe TripsController, type: :controller do
 	let(:trips_aggregated) do
 		{
 			"CA" => 190,
-			"FL" => 133
+			"FL" => 133,
+			"Rest of the Year" => 42
 		}
 	end
 	let(:expected_trip_summary_data) do
