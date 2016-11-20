@@ -12,12 +12,23 @@ class TripsController < ApplicationController
 	end
 	
 	def create
-		params[:trips].each do |trip|
-			trip[:total_days] = (trip[:end_date].to_date - trip[:start_date].to_date).to_i
-			trip = @person.trips.create!(trip_params(trip))
-		end
+		@trips = @person.trips
+		@all_empty = params[:trips].first.values.all?(&:blank?)
 
-		redirect_to person_trips_path
+		begin
+			ActiveRecord::Base.transaction do  
+				params[:trips].each do |trip|
+					break if trip.values.all?(&:blank?) unless @all_empty
+					trip[:total_days] = total_days(trip[:start_date], trip[:end_date])
+			    	@trips.new(trip_params(trip)).save!
+			    end
+			end
+		rescue ActiveRecord::RecordInvalid => invalid
+			@errors = invalid.record.errors.full_messages
+			render :new
+		else
+			redirect_to person_trips_path
+		end
 	end
 
 	def index
@@ -35,12 +46,18 @@ class TripsController < ApplicationController
 
 	private
 
+	def total_days(start_date, end_date)
+		if !start_date.blank? && !end_date.blank?
+			(end_date.to_date - start_date.to_date).to_i
+		end
+	end
+
 	def set_person
 		@person = Person.find(params[:person_id])
 	end
 
-	def trip_params(my_params)
-		my_params.permit(:start_date, :end_date, :state, :total_days)
+	def trip_params(trip)
+		trip.permit(:start_date, :end_date, :state, :total_days)
 	end
 
 	def trip_summary_data
