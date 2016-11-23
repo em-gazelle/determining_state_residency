@@ -1,39 +1,39 @@
 <h2>Great! You're ready...now let's start accounting for where you've spent your year </h2>
 
 <%= form_tag person_trips_path do %>
-	<% if !@errors.nil? %>
-		<div id="error_explanation">
-			<h2><%= pluralize(@errors.count, "error") %> stopped us from adding this time period: </h2>
+  <% if !@errors.nil? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@errors.count, "error") %> stopped us from adding this time period: </h2>
+      <ul>
+        <% @errors.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
 
-			<ul>
-				<% @errors.each do |msg| %>
-					<li><%= msg %></li>
-				<% end %>
-			</ul>
-		</div>
-		
-	<% else %>
-		<% @time_accounted_for.each do |trip| %>
-		  	<%= fields_for 'trips[]', trip do |t| %>
-		  		<div class="field">
-				    <%= t.label :start_date %><br>
-				    <%= t.date_field :start_date %>
-				</div>
-				<div class="field">
-				    <%= t.label :end_date %>
-				    <%= t.date_field :end_date %>
-				</div>
-				<div class="field">
-					<%= t.label :state %>
-				    <%= t.text_field :state %>
-				</div>
-			<% end %>
-			</br>
-		<% end %>
-		<div class="actions">
-			<%= submit_tag "Submit" %>
-		</div>
-	<% end %>
+  <% @time_accounted_for.each do |trip| %>
+    <%= fields_for 'trips[]', trip do |t| %>
+      <div class="field">
+        <%= t.label :start_date %><br>
+        <%= t.date_field :start_date %>
+      </div>
+      <div class="field">
+          <%= t.label :end_date %>
+          <%= t.date_field :end_date %>
+      </div>
+      <div class="field">
+        <%= t.label :state %>
+          <%= t.text_field :state %>
+      </div>
+    <% end %>
+  <% end %>
+  
+  </br>
+
+  <div class="actions">
+    <%= submit_tag "Submit" %>
+  </div>
+
 <% end %>
-
-<!-- Add another trip: <%#= render 'form' %> -->
+<%#= render 'form' %>
