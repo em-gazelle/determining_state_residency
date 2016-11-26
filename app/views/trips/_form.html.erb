@@ -1,28 +1,37 @@
-
-<h2>Add a trip:</h2>
-<%= form_for([@person, @person.trips.build]) do |f| %>
-<!--   <%# if @trip.errors.any? %>
+<%= form_tag person_trips_path do %>
+  <% if !@errors.nil? %>
     <div id="error_explanation">
-      <h2><%#= pluralize(@trip.count, "error") %> stopped us from adding this time period: </h2>
+      <h2><%= pluralize(@errors.count, "error") %> stopped us from adding this time period: </h2>
 
       <ul>
-      <%# @trip.errors.full_messages.each do |msg| %>
-        <li><%#= msg %></li>
-      <%# end %>
+        <% @errors.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
       </ul>
     </div>
-  <%# end %>
- -->
-  <p>
-    <%= f.label :start_date %><br>
-    <%= f.date_field :start_date %>
-  </p>
-    <p>
-    <%= f.label :end_date %><br>
-    <%= f.date_field :end_date %>
-  </p>
-  <p>
-    <%= f.label :state %><br>
-    <%= f.text_area :state %>
-  </p>
+  <% end %>
+
+  <% @time_accounted_for.each do |trip| %>
+    <%= fields_for 'trips[]', trip do |t| %>
+      <div class="field">
+        <%= t.label :start_date %><br>
+        <%= t.date_field :start_date %>
+      </div>
+      <div class="field">
+          <%= t.label :end_date %>
+          <%= t.date_field :end_date %>
+      </div>
+      <div class="field">
+        <%= t.label :state %>
+          <%= t.text_field :state %>
+      </div>
+    <% end %>
+  <% end %>
+  
+  </br>
+
+  <div class="actions">
+    <%= submit_tag "Submit" %>
+  </div>
+
 <% end %>

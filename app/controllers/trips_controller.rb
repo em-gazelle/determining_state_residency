@@ -2,7 +2,6 @@ require 'gruff'
 
 class TripsController < ApplicationController
 	before_action :set_person
-	# before_action :set_time_accounted_for, only: [:new, :create]
 	before_action :trip_summary_data, only: [:index, :pie_chart_for_total_days_per_state]
 	
 	def new
@@ -18,7 +17,6 @@ class TripsController < ApplicationController
 
 			ActiveRecord::Base.transaction do
 				params[:trips].each do |trip|
-					trip[:total_days] = total_days(trip[:start_date], trip[:end_date])
 			    	@trips.new(trip_params(trip)).save!
 			    end
 			end
@@ -46,12 +44,6 @@ class TripsController < ApplicationController
 	end
 
 	private
-
-	def total_days(start_date, end_date)
-		if !start_date.blank? && !end_date.blank?
-			(end_date.to_date - start_date.to_date).to_i
-		end
-	end
 
 	def time_accounted_for
 		@time_accounted_for = []

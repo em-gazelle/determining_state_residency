@@ -7,7 +7,6 @@ class PeopleController < ApplicationController
 
 	def create
 		@person = Person.new(person_params)
-		@person[:leap_year] = @person.leap_year?(@person.year)
 
 		respond_to do |format|
 			if @person.save

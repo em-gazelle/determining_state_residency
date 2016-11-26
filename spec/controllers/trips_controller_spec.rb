@@ -2,22 +2,26 @@ require 'rails_helper'
 
 RSpec.describe TripsController, type: :controller do
 	let(:person) { Fabricate(:person) }
-	let(:residency_achieved_conclusion) { "Congrats! You've achieved residency in your desired state!" }
-	let(:desired_state_of_residency) { "CA" }
+
 	let(:trips_aggregated) do
 		{
-			"CA" => 190,
-			"FL" => 133,
-			"Rest of the Year" => 42
+			"WY" => 245,
+			"NY" => 80,
+			"Rest of the Year" => 40
 		}
 	end
 	let(:expected_trip_summary_data) do
 		{
 			total_days_per_state: trips_aggregated,
-			residency_conclusion: residency_achieved_conclusion
+			residency_conclusion: "Congrats! You've achieved residency in WY!"
 		}
 	end
-
+	let(:expected_trip_summary_data_when_empty) do
+		{
+			total_days_per_state: { "Rest of the Year" => 365 },
+			residency_conclusion: "Oops! Looks like you haven't added any information on how you've spent the year... you've gotta give a little to get! Right now all we can say is the standard: you'll need to spend at least 183 days in #{person.desired_state_of_residency} in order to achieve residency!"
+		}
+	end
 	let(:trip_params) do
 		[
 			{"start_date"=>"2016-01-01", "end_date"=>"2016-03-05", "state"=>"WY"},
@@ -89,12 +93,13 @@ RSpec.describe TripsController, type: :controller do
 
 	describe 'index' do
 		before do 
-			Fabricate(:person, desired_state_of_residency: "CA", year: 2014, id: 1) do
+			Fabricate(:person, desired_state_of_residency: "WY", year: 2014, id: 1) do
 			 	trips { 
 			  		[
-				  		Fabricate(:trip, state: "CA", total_days: 179, person_id: 1), 
-				  		Fabricate(:trip, state: "FL", total_days: 133, person_id: 1), 
-				  		Fabricate(:trip, state: "CA", total_days: 11, person_id: 1)  		
+
+				  		Fabricate(:trip, state: "WY", start_date: Date.today-365, end_date: Date.today-180, person_id: 1), 
+				  		Fabricate(:trip, state: "NY", start_date: Date.today-180, end_date: Date.today-100, person_id: 1), 
+				  		Fabricate(:trip, state: "WY", start_date: Date.today-100, end_date: Date.today-40, person_id: 1)  		
 				  	]
 				}
 			end
@@ -107,7 +112,9 @@ RSpec.describe TripsController, type: :controller do
 			end
 		end
 		context 'no trips entered' do
-			it 'throws error and redirects user to person/#/trips/new' do
+			it 'raises no errors and displays the add-more-trips residency conclusion with a pie-chart consisting of only "rest of year"' do
+				get :index, person_id: person.id
+				expect(assigns(:trip_summary_data)).to eq(expected_trip_summary_data_when_empty)
 			end
 		end
 	end
