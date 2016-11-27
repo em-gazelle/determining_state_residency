@@ -49,7 +49,7 @@ class TripsController < ApplicationController
 		@time_accounted_for = []
 
 		if params[:trips].blank?
-			3.times{@time_accounted_for.push(@person.trips.new)}
+			21.times{@time_accounted_for.push(@person.trips.new)}
 		else
 			params[:trips].each do |trip|
 				@time_accounted_for.push(@person.trips.new(trip_params(trip)))

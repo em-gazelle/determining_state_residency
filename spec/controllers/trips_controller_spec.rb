@@ -82,13 +82,13 @@ RSpec.describe TripsController, type: :controller do
 			end
 		end
 
-		# context 'when user clicks 'add more' trips to form / more than 3 trips entered' do
-			# it 'adds all 4 trips' do
-			# 	expect{
-			# 		post :create, person_id: person.id, trips: trip_params
-			# 	}.to change(Trip, :count).by(4)
-			# end
-		# end
+		context 'when user clicks to add more trips to form / more than 3 trips entered' do
+			it 'adds 4 trips' do
+				expect{
+					post :create, person_id: person.id, trips: trip_params
+				}.to change(Trip, :count).by(4)
+			end
+		end
 	end
 
 	describe 'index' do
