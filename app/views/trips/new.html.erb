@@ -12,10 +12,11 @@
     </div>
   <% end %>
 
-  <% @time_accounted_for.each do |trip| %>
+  <% @number_of_trips = 3 %>
+  <% @time_accounted_for.first(@number_of_trips).each do |trip| %>
     <%= fields_for 'trips[]', trip do |t| %>
       <div class="field">
-        <%= t.label :start_date %><br>
+        <%= t.label :start_date %>
         <%= t.date_field :start_date %>
       </div>
       <div class="field">
@@ -27,8 +28,14 @@
           <%= t.text_field :state %>
       </div>
     <% end %>
+    <br>
   <% end %>
   
+  <button type="button", id="render_trips_form">Need more space?</button>
+  <div class="hidden", id="hidden_form">
+    <%= render partial:'form', locals: { number_of_trips: 3} %>
+  </div>
+
   </br>
 
   <div class="actions">
@@ -36,4 +43,3 @@
   </div>
 
 <% end %>
-<%#= render 'form' %>

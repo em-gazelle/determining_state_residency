@@ -1,37 +1,26 @@
-<%= form_tag person_trips_path do %>
-  <% if !@errors.nil? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@errors.count, "error") %> stopped us from adding this time period: </h2>
+  <% @number_of_trips = (@number_of_trips + 2) %>
 
-      <ul>
-        <% @errors.each do |msg| %>
-          <li><%= msg %></li>
-        <% end %>
-      </ul>
+  <% @time_accounted_for[(@number_of_trips-2)..(@number_of_trips)].each do |trip| %>
+
+      <%= fields_for 'trips[]', trip do |t| %>
+        <div class="field">
+          <%= t.label :start_date %><br>
+          <%= t.date_field :start_date %>
+        </div>
+        <div class="field">
+            <%= t.label :end_date %>
+            <%= t.date_field :end_date %>
+        </div>
+        <div class="field">
+          <%= t.label :state %>
+            <%= t.text_field :state %>
+        </div>
+      <% end %>
+  <% end %>
+
+  <% if (@number_of_trips <= 14) %>      
+    <button type="button", id="render_more_trips_<%= @number_of_trips%>">Need more space?</button>
+    <div class="hidden", id="hidden_form_<%= @number_of_trips %>">
+      <%= render partial:'form', locals: { number_of_trips: @number_of_trips } %>
     </div>
   <% end %>
-
-  <% @time_accounted_for.each do |trip| %>
-    <%= fields_for 'trips[]', trip do |t| %>
-      <div class="field">
-        <%= t.label :start_date %><br>
-        <%= t.date_field :start_date %>
-      </div>
-      <div class="field">
-          <%= t.label :end_date %>
-          <%= t.date_field :end_date %>
-      </div>
-      <div class="field">
-        <%= t.label :state %>
-          <%= t.text_field :state %>
-      </div>
-    <% end %>
-  <% end %>
-  
-  </br>
-
-  <div class="actions">
-    <%= submit_tag "Submit" %>
-  </div>
-
-<% end %>
