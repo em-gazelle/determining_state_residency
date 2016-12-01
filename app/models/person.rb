@@ -42,7 +42,7 @@ class Person < ActiveRecord::Base
 
 
 	def state_abbreviated
-		if (desired_state_of_residency.upcase != desired_state_of_residency) || (desired_state_of_residency.length != 2)
+		if desired_state_of_residency.nil? || (desired_state_of_residency.upcase != desired_state_of_residency) || (desired_state_of_residency.length != 2)
 			errors.add(:desired_state_of_residency, "Please supply your desired state of residency in the form of 2 abbreviated, capital letters.")
 		end
 	end
