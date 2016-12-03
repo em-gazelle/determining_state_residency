@@ -1,10 +1,10 @@
 class Person < ActiveRecord::Base
 	validates :year, presence: :true, numericality: { greater_than: 0 }
-	validate :state_abbreviated
+	validates :desired_state_of_residency, presence: :true, state: true
 
-	before_save :leap_year?#, on: [ :create ]
+	before_save :leap_year?
 
-	has_many :trips do
+	has_many :trips, dependent: :destroy do
 
 		def total_days_per_state(desired_state_of_residency)
 			@total_days_per_state = self.group(:state).sum(:total_days)
@@ -37,13 +37,6 @@ class Person < ActiveRecord::Base
 				total_days_per_state: total_days_per_state(desired_state_of_residency),
 				residency_conclusion: residency_conclusion(desired_state_of_residency)
 			}
-		end
-	end
-
-
-	def state_abbreviated
-		if desired_state_of_residency.nil? || (desired_state_of_residency.upcase != desired_state_of_residency) || (desired_state_of_residency.length != 2)
-			errors.add(:desired_state_of_residency, "Please supply your desired state of residency in the form of 2 abbreviated, capital letters.")
 		end
 	end
 
