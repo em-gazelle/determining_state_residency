@@ -66,7 +66,7 @@ class TripsController < ApplicationController
 	end
 
 	def trip_summary_data
-		@trip_summary_data = @person.trips.trip_summary_data(@person.desired_state_of_residency)
+		@trip_summary_data = @person.trips.trip_summary_data(@person.desired_state_of_residency, @person.leap_year)
 	end
 
 end
