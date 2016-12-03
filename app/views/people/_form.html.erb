@@ -17,8 +17,8 @@
   </div>
   <div class="field">
     <%= f.label :desired_state_of_residency %><br />
-    <%= f.awesomplete_field(:desired_state_of_residency, collection: STATES) %>
-    <%#= f.awesomplete_field(:desired_state_of_residency, list: LIST) %>
+    <%= f.text_field :desired_state_of_residency, list: 'states' %>
+    <%= render partial: "shared/choose_state" %>
   </div>
 
   <div class="actions">

@@ -13,7 +13,8 @@
         </div>
         <div class="field">
           <%= t.label :state %>
-            <%= t.text_field :state %>
+          <%= t.text_field :state, list: 'states' %>
+          <%= render partial: "shared/choose_state" %>
         </div>
       <% end %>
   <% end %>
