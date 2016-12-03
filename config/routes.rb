@@ -2,7 +2,7 @@ Rails.application.routes.draw do
 
   root 'people#new'
 
-  resources :people, only: [:new, :create, :show, :destroy] do
+  resources :people, except: :show do
     resources :trips, only: [:new, :create, :index]
     get 'trips/pie_chart_for_total_days_per_state'
   end
