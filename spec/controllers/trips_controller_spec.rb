@@ -18,8 +18,8 @@ RSpec.describe TripsController, type: :controller do
 	end
 	let(:expected_trip_summary_data_when_empty) do
 		{
-			total_days_per_state: { "Rest of the Year" => 365 },
-			residency_conclusion: "Oops! Looks like you haven't added any information on how you've spent the year... you've gotta give a little to get! Right now all we can say is the standard: you'll need to spend at least 183 days in #{person.desired_state_of_residency} in order to achieve residency!"
+			total_days_per_state: { "Rest of the Year" => 366 },
+			residency_conclusion: "Oops! Looks like you haven't added any information on how you've spent the year... you've gotta give a little to get! Right now all we can say is the standard: you'll need to spend at least 184 days in #{person.desired_state_of_residency} in order to achieve residency!"
 		}
 	end
 	let(:trip_params) do
