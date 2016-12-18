@@ -1,5 +1,63 @@
+.dummy {
+    margin-top: 95%;
+}
+
+.thumbnail {
+	top: 15px;
+	bottom: 0;
+	left: 15px;
+	right: 0;
+	text-align: center;
+	padding-top: calc(35% - 30px);
+    box-shadow: 5px 5px 5px 0 white inset, -5px -5px 5px 0 white inset;
+}
+
+.col-centered{
+	float: none;
+	margin: 0 auto;
+}
+
 .pie_chart {
     display: block;
     margin-left: auto;
-    margin-right: auto 
+    margin-right: auto;
+    padding: 10%;
+
+    margin-left: -20%;
+}
+
+.numbers {
+	margin-left: 85px;
+	margin-right: -85px;
+	margin-top: -85px;
+}
+
+.number-large {
+	top: 0;
+	font-size: 6vw;
+}
+
+#n1 {
+	background-color: #aedaa9;
+}
+
+#n2 {
+	background-color: #daaea9;
+}
+
+.h6 {
+	margin-top: 5px;
+}
+
+#analysis-pie {
+	height: auto;
+}
+
+.row.match-my-cols {
+    overflow: hidden; 
+}
+
+.row.match-my-cols [class*="col-"]{
+    margin-bottom: -99999px;
+    padding-bottom: 99999px;
 }

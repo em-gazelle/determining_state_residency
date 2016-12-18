@@ -5,21 +5,25 @@ RSpec.describe TripsController, type: :controller do
 
 	let(:trips_aggregated) do
 		{
-			"WY" => 245,
 			"NY" => 80,
+			"WY" => 245,
 			"Rest of the Year" => 40
 		}
 	end
 	let(:expected_trip_summary_data) do
 		{
 			total_days_per_state: trips_aggregated,
-			residency_conclusion: "Congrats! You've achieved residency in WY!"
+			residency_conclusion: "Congrats! You've achieved residency in WY!",
+			min_days_to_be_resident: -62,
+			max_days_left_in_other_states: 102
 		}
 	end
 	let(:expected_trip_summary_data_when_empty) do
 		{
-			total_days_per_state: { "Rest of the Year" => 366 },
-			residency_conclusion: "Oops! Looks like you haven't added any information on how you've spent the year... you've gotta give a little to get! Right now all we can say is the standard: you'll need to spend at least 184 days in #{person.desired_state_of_residency} in order to achieve residency!"
+			total_days_per_state: { "Rest of the Year" => 365, "CA" => 0 },
+			residency_conclusion: "Oops! Looks like you haven't added any information on how you've spent the year... you've gotta give a little to get! Right now all we can say is the standard: you'll need to spend at least 183 days in #{person.desired_state_of_residency} in order to achieve residency!",
+			min_days_to_be_resident: 183,
+			max_days_left_in_other_states: 182
 		}
 	end
 	let(:trip_params) do

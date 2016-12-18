@@ -1,8 +1,41 @@
 <h3><%= @trip_summary_data[:residency_conclusion] %></h3>
 
-<%= image_tag person_trips_pie_chart_for_total_days_per_state_path, alt: "Image Missing", class: "pie_chart" %>
+<%#= @trip_summary_data[:residency_conclusion] %>
 
-<%= link_to "Add more trips!", new_person_trip_path %>
-<%= link_to "Analyze a different year", new_person_path %>
-<%= link_to "Delete", person_path(@person), method: :delete, data: {confirm: "Are you sure? This will delete the entire year's worth of trips you've added"} %>
-<%= link_to "Change desired state of residency and/or year", edit_person_path(@person) %>
+
+<div class="container" id="analysis-graphics">
+	<div class="row match-my-cols">
+		<div class="col-md-4" id="analysis-numbers">
+			  <div class="row match-my-cols" id="r1">
+			        <div class="col-md-7 col-sm-3 col-centered">
+				        <div class="dummy"></div>
+				        <div class="thumbnail numbers" id="n1">
+				        	<span class="number-large"><%= @trip_summary_data[:min_days_to_be_resident] %></span></br>
+				        	<span class="h6">Min Days in CA</span>
+			        	</div>
+			      </div>
+			  </div>
+			  <div class="row match-my-cols" id="r2">
+			      <div class="col-md-7 col-sm-3 col-centered">
+			        <div class="dummy"></div>
+			        <div class="thumbnail numbers" id="n2">
+			        	<span class="number-large"><%= @trip_summary_data[:max_days_left_in_other_states] %></span></br>
+			        	<span class="h6">Max Days Abroad</span>
+			        </div>
+			      </div>
+			  </div>
+		</div>
+		<div class="col-md-8" id="analysis-pie">
+			<%= image_tag person_trips_pie_chart_for_total_days_per_state_path, alt: "Image Missing", class: "pie_chart img-fluid" %>
+		</div>
+	</div>
+</div>
+
+
+
+<%#= image_tag person_trips_pie_chart_for_total_days_per_state_path, alt: "Image Missing", class: "pie_chart" %>
+
+<%#= link_to "Add more trips!", new_person_trip_path %>
+<%#= link_to "Analyze a different year", new_person_path %>
+<%#= link_to "Delete", person_path(@person), method: :delete, data: {confirm: "Are you sure? This will delete the entire year's worth of trips you've added"} %>
+<%#= link_to "Change desired state of residency and/or year", edit_person_path(@person) %>
