@@ -20,7 +20,7 @@
   <% end %>
 
   <% if (@number_of_trips <= 14) %>      
-    <button type="button", id="render_more_trips_<%= @number_of_trips%>">Need more space?</button>
+    <button type="button", class="btn btn-default", id="render_more_trips_<%= @number_of_trips%>">Need more space?</button>
     <div class="hidden", id="hidden_form_<%= @number_of_trips %>">
       <%= render partial:'form', locals: { number_of_trips: @number_of_trips } %>
     </div>
