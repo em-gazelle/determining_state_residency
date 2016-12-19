@@ -34,7 +34,7 @@
   
   <% if @errors.nil? %>
     <button type="button", id="render_trips_form">Need more space?</button>
-    <div class="hidden", id="hidden_form">
+    <div class="form-hidden", id="hidden_form">
       <%= render partial:'form', locals: { number_of_trips: 3} %>
     </div>
   <% end %>
