@@ -35,6 +35,7 @@ gem 'gruff'
 # gem 'capistrano-rails', group: :development
 
 gem 'rails_12factor', group: :production
+gem 'puma'
 
 group :development, :test do
   gem 'rspec-rails'
