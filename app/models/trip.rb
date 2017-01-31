@@ -15,7 +15,6 @@ class Trip < ActiveRecord::Base
 
 	# analyze trips : model methods
 	def self.total_days_per_state
-		puts "in tdps method"
 		@total_days_per_state = self.group(:state).sum(:total_days)
 		@total_days_per_state["Rest of the Year"] = @days_remaining unless days_remaining < 1
 		@total_days_per_state
