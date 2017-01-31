@@ -2,10 +2,13 @@ Rails.application.routes.draw do
 
   root 'people#new'
 
-  resources :people, except: :show do
+  resources :people do
+    member do
+      get 'pie_chart_for_total_days_per_state'
+    end
     resources :trips, only: [:new, :create, :index]
-    get 'trips/pie_chart_for_total_days_per_state'
   end
+
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

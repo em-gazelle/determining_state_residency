@@ -19,13 +19,13 @@
 		      <ul class="nav navbar-nav navbar-right">
 		        <% if !@person.id.nil? %>
 			        <li><%= link_to "Add More Trips", new_person_trip_path(@person) %></li>
-			        <li><%= link_to "Analyze",  person_trips_path(@person) %></li>
+			        <li><%= link_to "Analyze",  person_path(@person) %></li>
 			        <li><%= link_to "Edit Year", edit_person_path(@person) %></li>
 		  	        <li><%= link_to "Delete Year", person_path(@person), method: :delete, data: {confirm: "Are you sure? This will delete the entire year's worth of trips you've added"} %></li>
 	  	        <% end %>
 		      </ul>
-		    </div><!-- /.navbar-collapse -->
-		  </div><!-- /.container-fluid -->
+		    </div>
+		  </div>
 		</nav>
 
 	    <div class="container">

@@ -8,6 +8,32 @@ RSpec.describe PeopleController, type: :controller do
 		}
 	end
 
+	let(:person) { Fabricate(:person) }
+
+	let(:trips_aggregated) do
+		{
+			"NY" => 80,
+			"WY" => 245,
+			"Rest of the Year" => 40
+		}
+	end
+	let(:expected_trip_summary_data) do
+		{
+			total_days_per_state: trips_aggregated,
+			residency_conclusion: "Congrats! You've achieved residency in WY!",
+			min_days_to_be_resident: -62,
+			max_days_left_in_other_states: 102
+		}
+	end
+	let(:expected_trip_summary_data_when_empty) do
+		{
+			total_days_per_state: { "Rest of the Year" => 365, "CA" => 0 },
+			residency_conclusion: "Oops! Looks like you haven't added any information on how you've spent the year... you've gotta give a little to get! Right now all we can say is the standard: you'll need to spend at least 183 days in #{person.desired_state_of_residency} in order to achieve residency!",
+			min_days_to_be_resident: 183,
+			max_days_left_in_other_states: 182
+		}
+	end	
+
 	describe 'create#POST' do
 		it 'creates a new person' do
 		  expect{
@@ -32,4 +58,33 @@ RSpec.describe PeopleController, type: :controller do
 			expect(Person.first.leap_year).to eq(true)
 		end
 	end
+
+	describe 'show' do
+		before do 
+			Fabricate(:person, desired_state_of_residency: "WY", year: 2014, id: 1) do
+			 	trips { 
+			  		[
+
+				  		Fabricate(:trip, state: "WY", start_date: Date.today-365, end_date: Date.today-180, person_id: 1), 
+				  		Fabricate(:trip, state: "NY", start_date: Date.today-180, end_date: Date.today-100, person_id: 1), 
+				  		Fabricate(:trip, state: "WY", start_date: Date.today-100, end_date: Date.today-40, person_id: 1)  		
+				  	]
+				}
+			end
+		end
+
+		context 'at least one trip supplied, no errors' do
+			it 'returns trip summary data' do
+				get :show, id: 1
+				expect(assigns(:trip_summary_data)).to eq(expected_trip_summary_data)
+			end
+		end
+		context 'no trips entered' do
+			it 'raises no errors and displays the add-more-trips residency conclusion with a pie-chart consisting of only "rest of year"' do
+				get :show, id: person.id
+				expect(assigns(:trip_summary_data)).to eq(expected_trip_summary_data_when_empty)
+			end
+		end
+	end
+
 end
