@@ -1,6 +1,6 @@
-class CreatePeople < ActiveRecord::Migration
+class CreateYearAnalyses < ActiveRecord::Migration
   def change
-    create_table :people do |t|
+    create_table :year_analyses do |t|
       t.string :desired_residency_state
       t.boolean :leap_year
       t.integer :year

@@ -1,10 +1,10 @@
-<%= form_for(@person) do |f| %>
-  <% if @person.errors.any? %>
+<%= form_for(@year_analysis) do |f| %>
+  <% if @year_analysis.errors.any? %>
     <div id="error_explanation">
-      <h2><%= pluralize(@person.errors.count, "error") %> stopped us from beginning to calculate your state of residence:</h2>
+      <h2><%= pluralize(@year_analysis.errors.count, "error") %> stopped us from beginning to calculate your state of residence:</h2>
 
       <ul>
-      <% @person.errors.full_messages.each do |msg| %>
+      <% @year_analysis.errors.full_messages.each do |msg| %>
         <li><%= msg %></li>
       <% end %>
       </ul>

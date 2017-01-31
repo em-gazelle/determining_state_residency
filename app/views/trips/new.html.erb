@@ -1,6 +1,6 @@
 <h2>Great! You're ready...now let's start accounting for where you've spent your year </h2>
 
-<%= form_tag person_trips_path do %>
+<%= form_tag year_analysis_trips_path do %>
   <% if !@errors.nil? %>
     <div id="error_explanation">
       <h2><%= pluralize(@errors.count, "error") %> stopped us from adding this time period: </h2>

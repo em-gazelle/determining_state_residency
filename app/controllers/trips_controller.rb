@@ -1,12 +1,12 @@
 class TripsController < ApplicationController
-	before_action :set_person
+	before_action :set_year_analysis
 	
 	def new
 		time_accounted_for
 	end
 	
 	def create
-		@trips = @person.trips
+		@trips = @year_analysis.trips
 		params[:trips] = params[:trips].take_while{|t| !t.values.all?(&:empty?)}
 
 		begin
@@ -22,12 +22,12 @@ class TripsController < ApplicationController
 			time_accounted_for
 			render :new
 		else
-			redirect_to person_path(@person)
+			redirect_to year_analysis_path(@year_analysis)
 		end
 	end
 
 	def index
-		@trips = @person.trips
+		@trips = @year_analysis.trips
 	end
 
 	private
@@ -36,16 +36,16 @@ class TripsController < ApplicationController
 		@time_accounted_for = []
 
 		if params[:trips].blank?
-			21.times{@time_accounted_for.push(@person.trips.new)}
+			21.times{@time_accounted_for.push(@year_analysis.trips.new)}
 		else
 			params[:trips].each do |trip|
-				@time_accounted_for.push(@person.trips.new(trip_params(trip)))
+				@time_accounted_for.push(@year_analysis.trips.new(trip_params(trip)))
 			end
 		end
 	end
 
-	def set_person
-		@person = Person.find(params[:person_id])
+	def set_year_analysis
+		@year_analysis = YearAnalysis.find(params[:year_analysis_id])
 	end
 
 	def trip_params(trip)

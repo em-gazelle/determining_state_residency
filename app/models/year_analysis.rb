@@ -1,4 +1,4 @@
-class Person < ActiveRecord::Base
+class YearAnalysis < ActiveRecord::Base
 	validates :year, presence: :true, numericality: { greater_than: 0 }
 	validates :desired_state_of_residency, presence: :true, state: true
 

@@ -13,7 +13,7 @@
 
 ActiveRecord::Schema.define(version: 20160928040222) do
 
-  create_table "people", force: :cascade do |t|
+  create_table "year_analyses", force: :cascade do |t|
     t.string   "desired_state_of_residency"
     t.boolean  "leap_year"
     t.integer  "year"
@@ -26,11 +26,11 @@ ActiveRecord::Schema.define(version: 20160928040222) do
     t.date     "end_date"
     t.integer  "total_days"
     t.string   "state"
-    t.integer  "person_id"
+    t.integer  "year_analysis_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  add_index "trips", ["person_id"], name: "index_trips_on_person_id"
+  add_index "trips", ["year_analysis_id"], name: "index_trips_on_year_analysis_id"
 
 end

@@ -1,5 +1,5 @@
 class Trip < ActiveRecord::Base
-	belongs_to :person
+	belongs_to :year_analysis
 	
 	validates_presence_of :start_date, :end_date
 	validates :state, state: true

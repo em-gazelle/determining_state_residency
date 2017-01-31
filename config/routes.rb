@@ -1,8 +1,8 @@
 Rails.application.routes.draw do
 
-  root 'people#new'
+  root 'year_analyses#new'
 
-  resources :people do
+  resources :year_analyses do
     member do
       get 'pie_chart_for_total_days_per_state'
     end

@@ -6,7 +6,7 @@
 				        <div class="dummy"></div>
 				        <div class="thumbnail numbers" id="n1">
 				        	<span class="number-large"><%= @trip_summary_data[:min_days_to_be_resident] %></span></br>
-				        	<span class="h6">Min Days in <%= @person.desired_state_of_residency %></span>
+				        	<span class="h6">Min Days in <%= @year_analysis.desired_state_of_residency %></span>
 			        	</div>
 			      </div>
 			  </div>
@@ -21,7 +21,7 @@
 			  </div>
 		</div>
 		<div class="col-md-8" id="analysis-pie">
-			<%= image_tag pie_chart_for_total_days_per_state_person_path, alt: "Image Missing", class: "pie_chart img-fluid" %>
+			<%= image_tag pie_chart_for_total_days_per_state_year_analysis_path, alt: "Image Missing", class: "pie_chart img-fluid" %>
 		</div>
 	</div>
 	<div class="row">
