@@ -1,0 +1,11 @@
+All years entered:
+
+<table class="table">
+	<% @year_analyses.each do |y| %>
+		<tr>
+			<td><%= y.year %></td>
+			<td><%= y.desired_state_of_residency %></td>
+			<td><span class="navbar-link"><%= link_to "View Analysis", year_analysis_path(y), class: "btn btn-link" %></span></td>
+		</tr>
+	<% end %>
+</table>

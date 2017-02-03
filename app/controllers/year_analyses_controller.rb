@@ -1,5 +1,5 @@
 class YearAnalysesController < ApplicationController
-	before_action :set_year_analysis, except: [:new, :create]
+	before_action :set_year_analysis, except: [:new, :create, :index]
 	before_action :trip_summary_data, only: [:show, :pie_chart_for_total_days_per_state]
 
 	def new
@@ -7,7 +7,7 @@ class YearAnalysesController < ApplicationController
 	end
 
 	def create
-		@year_analysis = YearAnalysis.new(year_analysis_params)
+		@year_analysis = current_user.year_analyses.new(year_analysis_params)
 
 		respond_to do |format|
 			if @year_analysis.save
@@ -43,6 +43,10 @@ class YearAnalysesController < ApplicationController
 			graph.data(state[0], state[1])
 		end
 		send_data(graph.to_blob, :disposition => 'inline',  :type => 'image/png',  :filename => "pie.png")
+	end
+
+	def index
+		@year_analyses = current_user.year_analyses
 	end
 
 	def destroy

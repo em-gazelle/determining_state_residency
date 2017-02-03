@@ -4,6 +4,7 @@ class YearAnalysis < ActiveRecord::Base
 
 	before_save :leap_year?
 
+	belongs_to :user
 	has_many :trips, dependent: :destroy
 
 	# analyze trips : model methods

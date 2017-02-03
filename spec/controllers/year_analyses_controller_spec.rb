@@ -2,12 +2,8 @@ require 'rails_helper'
 
 RSpec.describe YearAnalysesController, type: :controller do
 	let(:user) { Fabricate(:user) }
-	let(:year_analysis_params) do
-		{
-			desired_state_of_residency: "TX",
-			year: 2018
-		}
-	end
+
+	let(:year_analysis_params) { Fabricate.to_params(:year_analysis) }
 	let(:year_analysis) { Fabricate(:year_analysis) }
 	let(:trips_aggregated) do
 		{
@@ -38,10 +34,10 @@ RSpec.describe YearAnalysesController, type: :controller do
 	end
 
 	describe 'create#POST' do
-		it 'creates a new year_analysis' do
+		it 'creates a new year_analysis and assigns to current_user' do
 		  expect{
 		    post :create, year_analysis: year_analysis_params
-		  }.to change(YearAnalysis,:count).by(1)
+		  }.to change(user.year_analyses, :count).by(1)
 		end
 		
 		it 'sets leap_year as false when not divisible by 4' do
@@ -62,7 +58,7 @@ RSpec.describe YearAnalysesController, type: :controller do
 		end
 	end
 
-	describe 'show' do
+	describe 'show#GET' do
 		before do 
 			Fabricate(:year_analysis, desired_state_of_residency: "WY", year: 2014, id: 1) do
 			 	trips { 
@@ -78,7 +74,7 @@ RSpec.describe YearAnalysesController, type: :controller do
 
 		context 'at least one trip supplied, no errors' do
 			it 'returns trip summary data' do
-				get :show, id: 1, current_user: user
+				get :show, id: 1
 				expect(assigns(:trip_summary_data)).to eq(expected_trip_summary_data)
 			end
 		end
@@ -86,6 +82,32 @@ RSpec.describe YearAnalysesController, type: :controller do
 			it 'raises no errors and displays the add-more-trips residency conclusion with a pie-chart consisting of only "rest of year"' do
 				get :show, id: year_analysis.id
 				expect(assigns(:trip_summary_data)).to eq(expected_trip_summary_data_when_empty)
+			end
+		end
+	end
+
+	describe 'index#GET' do
+		context 'user not logged in' do
+			it 'redirects to sign_in and does not show any year_analyses' do
+				sign_out user
+				get :index
+				expect(response).to redirect_to '/users/sign_in'
+			end
+		end
+		context 'user logged in; user has no year_analyses' do
+			it 'shows no trips and throws no errors' do
+				get :index
+				expect(assigns(:year_analyses).empty?).to eq(true)
+				expect(response.response_code).to eq(200)
+			end
+		end
+		context 'user logged in; user has many year_analyses' do
+			it 'shows only year_analyses associated with user' do
+				Fabricate.times(4, :year_analysis)
+				Fabricate.times(3, :year_analysis, user_id: user.id)
+
+				get :index
+				expect(assigns(:year_analyses).count).to eq(3)
 			end
 		end
 	end
