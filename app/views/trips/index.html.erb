@@ -7,6 +7,12 @@
 			<td><%= t.start_date %></td>
 			<td><%= t.end_date %></td>
 			<td><%= t.total_days %></td>
+			<td><%= link_to edit_year_analysis_trip_path(@year_analysis, t), class: "btn btn-default" do %>
+			    <span class="glyphicon glyphicon-pencil"></span>
+			<% end %></td>
+			<td><%= link_to year_analysis_trip_path(@year_analysis, t), method: :delete, data: { confirm: "Are you sure you want to delete this trip?" }, class: "btn btn-default" do %>
+			    <span class="glyphicon glyphicon-remove"></span>
+			<% end %></td>
 		</tr>
 	<% end %>
 </table>

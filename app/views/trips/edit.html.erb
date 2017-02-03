@@ -1,0 +1,34 @@
+<h3>Edit Trip:</h3>
+
+
+<%= form_for [@year_analysis, @trip] do |t| %>
+  <% if @trip.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@trip.errors.count, "error") %> stopped us from beginning to calculate your state of residence:</h2>
+
+      <ul>
+      <% @trip.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= t.label :start_date %><br>
+    <%= t.date_field :start_date %>
+  </div>
+  <div class="field">
+      <%= t.label :end_date %>
+      <%= t.date_field :end_date %>
+  </div>
+  <div class="field">
+    <%= t.label :state %>
+    <%= t.text_field :state, list: 'states' %>
+    <%= render partial: "shared/choose_state" %>
+  </div>
+
+  <div class="actions">
+    <%= t.submit %>
+  </div>
+<% end %>

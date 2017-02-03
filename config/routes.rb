@@ -7,7 +7,7 @@ Rails.application.routes.draw do
     member do
       get 'pie_chart_for_total_days_per_state'
     end
-    resources :trips, only: [:new, :create, :index]
+    resources :trips
   end
 
 

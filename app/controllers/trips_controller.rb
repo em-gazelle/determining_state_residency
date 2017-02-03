@@ -1,5 +1,6 @@
 class TripsController < ApplicationController
 	before_action :set_year_analysis
+	before_action :set_trip, only: [:edit, :update, :destroy]
 	
 	def new
 		time_accounted_for
@@ -26,8 +27,24 @@ class TripsController < ApplicationController
 		end
 	end
 
+	def edit
+	end
+
+	def update
+		if @trip.update(edit_trip_params)
+			redirect_to year_analysis_trips_path(@year_analysis)
+		else
+			render 'edit'
+		end
+	end
+
 	def index
 		@trips = @year_analysis.trips
+	end
+
+	def destroy
+		@trip.destroy
+		redirect_to year_analysis_trips_path(@year_analysis)
 	end
 
 	private
@@ -48,8 +65,15 @@ class TripsController < ApplicationController
 		@year_analysis = YearAnalysis.find(params[:year_analysis_id])
 	end
 
-	def trip_params(trip)
-		trip.permit(:start_date, :end_date, :state, :total_days)
+	def set_trip
+		@trip = Trip.find(params[:id])
 	end
 
+	def trip_params(trip)
+		trip.permit(:start_date, :end_date, :state)
+	end
+
+	def edit_trip_params
+		params.require(:trip).permit(:start_date, :end_date, :state)
+	end
 end

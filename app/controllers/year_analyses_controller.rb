@@ -25,7 +25,7 @@ class YearAnalysesController < ApplicationController
 
 	def update
 		if @year_analysis.update(year_analysis_params)
-			redirect_to year_analysis_trips_path(@year_analysis)
+			redirect_to year_analysis_path(@year_analysis)
 		else
 			render 'edit'
 		end

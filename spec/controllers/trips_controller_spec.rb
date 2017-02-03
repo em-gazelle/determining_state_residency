@@ -15,9 +15,7 @@ RSpec.describe TripsController, type: :controller do
 	let(:empty_trip_params) do
 		{"start_date"=>"", "end_date"=>"", "state"=>""}
 	end	
-	let(:invalid_trip_params) do
-		{"start_date"=>"2016-01-01", "end_date"=>"2016-03-05", "state"=>""}
-	end
+	let(:invalid_trip_params) { Fabricate.to_params(:trip, state: nil) }
 
 	before(:each) do
 		sign_in user
