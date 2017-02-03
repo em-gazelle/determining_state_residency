@@ -1,6 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe TripsController, type: :controller do
+	let(:user) { Fabricate(:user) }
 	let(:year_analysis) { Fabricate(:year_analysis) }
 
 	let(:trip_params) do
@@ -16,6 +17,10 @@ RSpec.describe TripsController, type: :controller do
 	end	
 	let(:invalid_trip_params) do
 		{"start_date"=>"2016-01-01", "end_date"=>"2016-03-05", "state"=>""}
+	end
+
+	before(:each) do
+		sign_in user
 	end
 
 	describe 'post' do

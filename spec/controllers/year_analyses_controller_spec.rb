@@ -1,15 +1,14 @@
 require 'rails_helper'
 
 RSpec.describe YearAnalysesController, type: :controller do
+	let(:user) { Fabricate(:user) }
 	let(:year_analysis_params) do
 		{
 			desired_state_of_residency: "TX",
 			year: 2018
 		}
 	end
-
 	let(:year_analysis) { Fabricate(:year_analysis) }
-
 	let(:trips_aggregated) do
 		{
 			"NY" => 80,
@@ -33,6 +32,10 @@ RSpec.describe YearAnalysesController, type: :controller do
 			max_days_left_in_other_states: 182
 		}
 	end	
+	
+	before(:each) do
+		sign_in user
+	end
 
 	describe 'create#POST' do
 		it 'creates a new year_analysis' do
@@ -75,7 +78,7 @@ RSpec.describe YearAnalysesController, type: :controller do
 
 		context 'at least one trip supplied, no errors' do
 			it 'returns trip summary data' do
-				get :show, id: 1
+				get :show, id: 1, current_user: user
 				expect(assigns(:trip_summary_data)).to eq(expected_trip_summary_data)
 			end
 		end

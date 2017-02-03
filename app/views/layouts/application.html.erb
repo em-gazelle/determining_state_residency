@@ -17,11 +17,17 @@
 		    </div>
 		    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 		      <ul class="nav navbar-nav navbar-right">
-		        <% if !@year_analysis.id.nil? %>
+		        <% if @year_analysis && @year_analysis.id %>
 			        <li><%= link_to "Add More Trips", new_year_analysis_trip_path(@year_analysis) %></li>
 			        <li><%= link_to "Analyze",  year_analysis_path(@year_analysis) %></li>
 			        <li><%= link_to "Edit Year", edit_year_analysis_path(@year_analysis) %></li>
 		  	        <li><%= link_to "Delete Year", year_analysis_path(@year_analysis), method: :delete, data: {confirm: "Are you sure? This will delete the entire year's worth of trips you've added"} %></li>
+	  	        <% end %>
+	  	        	<li><%= link_to "See All Years", year_analyses_path %></li>
+	  	        <% if user_signed_in? %>
+	  	        	<li><%= link_to "Sign Out", destroy_user_session_path %></li>
+	  	        <% else %>
+	  	        	<li><%= link_to "Sign In", new_user_session_path %></li>
 	  	        <% end %>
 		      </ul>
 		    </div>
@@ -29,6 +35,9 @@
 		</nav>
 
 	    <div class="container">
+		  <p class="notice"><%= notice %></p>
+	      <p class="alert"><%= alert %></p>
+	      
 	      <%= yield %>
 	    </div>
 

@@ -2,7 +2,6 @@ class YearAnalysesController < ApplicationController
 	before_action :set_year_analysis, except: [:new, :create]
 	before_action :trip_summary_data, only: [:show, :pie_chart_for_total_days_per_state]
 
-
 	def new
 		@year_analysis = YearAnalysis.new
 	end
