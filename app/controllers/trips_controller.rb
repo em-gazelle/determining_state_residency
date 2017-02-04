@@ -3,6 +3,8 @@ class TripsController < ApplicationController
 	before_action :set_trip, only: [:edit, :update, :destroy]
 	
 	def new
+		@min_date = Date.new(@year_analysis.year, 01, 01)
+		@max_date = Date.new(@year_analysis.year, 12, 31)
 		time_accounted_for
 	end
 	

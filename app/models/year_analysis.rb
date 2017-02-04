@@ -1,7 +1,6 @@
 class YearAnalysis < ActiveRecord::Base
 	validates :year, presence: :true, numericality: { greater_than: 0 }
 	validates :desired_state_of_residency, presence: :true, state: true
-
 	before_save :leap_year?
 
 	belongs_to :user

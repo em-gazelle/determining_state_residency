@@ -17,11 +17,11 @@
     <%= fields_for 'trips[]', trip do |t| %>
       <div class="field">
         <%= t.label :start_date %>
-        <%= t.date_field :start_date %>
+        <%= t.date_field :start_date, min: @min_date, max: @max_date %>
       </div>
       <div class="field">
           <%= t.label :end_date %>
-          <%= t.date_field :end_date %>
+          <%= t.date_field :end_date, min: @min_date, max: @max_date %>
       </div>
       <div class="field">
         <%= t.label :state %>

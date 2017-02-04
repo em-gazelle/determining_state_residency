@@ -5,12 +5,13 @@ class Trip < ActiveRecord::Base
 	validates :state, state: true
 	validate :validating_dates
 
-	before_create :set_total_days, on: [ :create ]
+	before_create :set_total_days, on: :create
+	before_save :set_total_days, on: :update
 
 	def validating_dates
 		if start_date.nil? || end_date.nil? || (end_date < start_date)
 			errors.add(:end_date, "must be ahead of start date")
-		end		
+		end
 	end
 
 	protected
