@@ -42,6 +42,14 @@ class TripsController < ApplicationController
 
 	def index
 		@trips = @year_analysis.trips
+
+		respond_to do |format|
+		    format.html
+		    format.csv {
+				filename = "#{@year_analysis.year}-All Trips.csv"
+				send_data(@trips.to_csv(only: [:state, :start_date, :end_date, :total_days]), type: "text/csv; charset=utf-8; header=present", filename: filename)
+		    }		
+		end
 	end
 
 	def destroy
