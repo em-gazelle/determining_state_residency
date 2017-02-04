@@ -33,8 +33,7 @@ class YearAnalysis < ActiveRecord::Base
 	def residency_conclusion
 		@min_days_to_be_resident = (majority_of_year - (@total_days_per_state[@desired_state_of_residency] ||= 0))
 		@max_days_left_in_other_states = (@days_remaining - @min_days_to_be_resident)
-
-		if @min_days_to_be_resident == majority_of_year
+		if @days_remaining == days_of_year
 			"Oops! Looks like you haven't added any information on how you've spent the year... you've gotta give a little to get! Right now all we can say is the standard: you'll need to spend at least #{majority_of_year} days in #{@desired_state_of_residency} in order to achieve residency!"
 		elsif @min_days_to_be_resident <= 0
 			"Congrats! You've achieved residency in #{@desired_state_of_residency}!"
